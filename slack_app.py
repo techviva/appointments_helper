@@ -3,9 +3,9 @@ import os
 from slack_bolt import App
 from slack_bolt.adapter.fastapi import SlackRequestHandler
 from fastapi import FastAPI, Request
-from utils.ai_utils import get_time_windows_from_availability_text
-from utils.customers_availability import get_clickup_availability
-from src.appointment_suggester import suggest_appointments  # adjust if your module path differs
+from .utils.ai_utils import get_time_windows_from_availability_text
+from .utils.customers_availability import get_clickup_availability
+from .src.appointment_suggester import suggest_appointments  # adjust if your module path differs
 
 SLACK_BOT_TOKEN = os.environ["SLACK_BOT_TOKEN"]
 SLACK_SIGNING_SECRET = os.environ["SLACK_SIGNING_SECRET"]
