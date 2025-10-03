@@ -19,7 +19,7 @@ def format_blocks(suggestions, address):
         return [{"type":"section","text":{"type":"mrkdwn","text":f"❌ No options for *{address}*"}}]
     blocks = [{"type":"section","text":{"type":"mrkdwn","text":f"*Appointment suggestions for:* `{address}`"}}]
     for i, s in enumerate(suggestions, 1):
-        line = f"*Option {i}* — *{s['day_of_week']}* {s['date']} at *{s['time']}*\n{s['explanation']}\n• Zone: {s['zone']} • ~{s['travel_minutes']} min • {s['distance_miles']} mi • {s['duration_minutes']} min"
+        line = f"*Option {i}* — *{s['day_of_week']}* {s['date']} at *{s['time']}*\n{s['explanation']}\n• Zone: *{s['zone']}* • *travel time*:~{s['travel_minutes']} min • *distance*: {s['distance_miles']} miles • *service duration*: {s['duration_minutes']} min"
         blocks += [{"type":"divider"},{"type":"section","text":{"type":"mrkdwn","text":line}}]
     return blocks
 
