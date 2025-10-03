@@ -3,3 +3,8 @@ requests
 dateutils
 google-genai
 dotenv
+fastapi
+uvicorn[standard]
+slack_bolt
+requests
+python-dateutil
