@@ -60,8 +60,10 @@ def format_blocks(suggestions, address, cust_time_windows):
 
     window_hours = calculate_time_window_hours(cust_time_windows)
     for i, s in enumerate(suggestions, 1):
-        end_time = s['time'] + timedelta(hours=window_hours)
-        line = f"*Option {i}* — *{s['day_of_week']}* {s['date']} at *{s['time']}:{end_time} - window: {window_hours} hours*\n{s['explanation']}\n Zone: *{s['zone']}* *travel time*:~{s['travel_minutes']} min *distance*: {s['distance_miles']} miles *service duration*: {s['duration_minutes']} min"
+        t_as_time = datetime.strptime(s['time'], "%I:%M %p")
+        end_time = t_as_time + timedelta(hours=window_hours)
+        end_time_str = end_time.strftime("%I:%M %p")
+        line = f"*Option {i}* — *{s['day_of_week']}* {s['date']} at *{s['time']}:{end_time_str} - window: {window_hours} hours*\n{s['explanation']}\n Zone: *{s['zone']}* *travel time*:~{s['travel_minutes']} min *distance*: {s['distance_miles']} miles *service duration*: {s['duration_minutes']} min"
         blocks += [{"type":"divider"},{"type":"section","text":{"type":"mrkdwn","text":line}}]
     return blocks
 
