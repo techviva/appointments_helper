@@ -2,6 +2,7 @@
 from datetime import datetime, timedelta, time
 from typing import List, Dict, Tuple, Optional
 from zoneinfo import ZoneInfo
+from config.app_logging import logger
 
 from config.policy_config import (
     ZONE_POLICIES, DISTANCE_RULES, BASE_LATLNG, EST_MPH,
@@ -271,6 +272,12 @@ def suggest_appointments(new_request: Dict, existing_appointments: List[Dict]) -
     
     # 5. Generate candidate slots based on distance policy
     defer_days = distance_policy.get('defer_days', 0)
+    
+    # Special rule: High Traffic zone with < 40 min distance allows next-day/48hr scheduling
+    if zone_label == "High Traffic" and minutes_from_base < 40:
+        defer_days = 0  # Allow immediate scheduling (next-day or 48hr)
+        logger.info(f"Special rule applied: High Traffic zone with {minutes_from_base} min distance - allowing immediate scheduling")
+
     candidates = generate_candidate_slots(zone_label, customer_windows, service_duration, defer_days)
     
     if not candidates:
