@@ -63,7 +63,7 @@ def format_blocks(suggestions, address, cust_time_windows):
         t_as_time = datetime.strptime(s['time'], "%I:%M %p")
         end_time = t_as_time + timedelta(hours=window_hours)
         end_time_str = end_time.strftime("%I:%M %p")
-        line = f"*Option {i}* — *{s['day_of_week']}* {s['date']} at *{s['time']}:{end_time_str} - window: {window_hours} hours*\n{s['explanation']}\n Zone: *{s['zone']}* *travel time*:~{s['travel_minutes']} min *distance*: {s['distance_miles']} miles *service duration*: {s['duration_minutes']} min"
+        line = f"*Option {i}* — *{s['day_of_week']}* {s['date']} at *{s['time']} : {end_time_str} - window: {window_hours} hours*\n{s['explanation']}\n Zone: *{s['zone']}* *travel time*:~{s['travel_minutes']} min *distance*: {s['distance_miles']} miles *service duration*: {s['duration_minutes']} min"
         blocks += [{"type":"divider"},{"type":"section","text":{"type":"mrkdwn","text":line}}]
     return blocks
 
