@@ -150,6 +150,7 @@ def generate_candidate_slots(zone_label: str, customer_windows: List[Tuple[datet
                 slot_time += timedelta(minutes=30)
         
         current += timedelta(days=1)
+    candidates = [slot for slot in candidates if slot >= now + timedelta(hours=1)]
     
     return candidates
 
