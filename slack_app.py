@@ -7,6 +7,7 @@ from utils.ai_utils import get_time_windows_from_availability_text
 from utils.customers_availability import get_clickup_availability
 from src.appointment_suggester import suggest_appointments  # adjust if your module path differs
 from datetime import datetime, timedelta
+from config.app_logging import logger
 
 
 SLACK_BOT_TOKEN = os.environ["SLACK_BOT_TOKEN"]
@@ -88,8 +89,17 @@ def handle_suggest(ack, respond, command, logger):
         }
 
         existing = get_clickup_availability(days_back=15)
+        logger.info(f"Got {len(existing)} existing appointments")
+        
         suggestions = suggest_appointments(req, existing)
-        respond(blocks=format_blocks(suggestions, address, time_windows["time_windows"]))
+        logger.info(f"Suggester returned {len(suggestions)} suggestions")
+        logger.info(f"First suggestion: {suggestions[0] if suggestions else 'None'}")
+        
+        blocks = format_blocks(suggestions, address, time_windows["time_windows"])
+        logger.info(f"Formatted {len(blocks)} Slack blocks")
+
+        respond(blocks=blocks)
+        logger.info("Response sent to Slack")
     except Exception as e:
         logger.exception(e)
         respond(response_type="ephemeral", text=f"❌ Error: {e}")
